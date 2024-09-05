@@ -60,13 +60,13 @@ def prune_columns(model, prune_ratio):
                 for i in range(weight.size(0)):
                     if count >= weight.size(0) * prune_ratio:
                         break
-                    if weight[i][j] < threshold:
+                    if abs(weight[i][j]) < threshold:
                         weight[i][j] = 0
                         count += 1
                 for i in range(weight.size(0)):
                     if count >= weight.size(0) * prune_ratio:
                         break
-                    if weight[i][j] != 0.0 and weight[i][j] == threshold:
+                    if weight[i][j] != 0.0 and abs(weight[i][j]) == threshold:
                         weight[i][j] = 0
                         count += 1
                 print(f"module name={name}, i={j}, threshold={threshold}, pruning={count}")
@@ -85,19 +85,19 @@ def prune_rows(model, prune_ratio):
                 for j in range(weight.size(1)):
                     if count >= weight.size(1) * prune_ratio:
                         break
-                    if weight[i][j] < threshold:
+                    if abs(weight[i][j]) < threshold:
                         weight[i][j] = 0
                         count += 1
                 for j in range(weight.size(1)):
                     if count >= weight.size(1) * prune_ratio:
                         break
-                    if weight[i][j] != 0.0 and weight[i][j] == threshold:
+                    if weight[i][j] != 0.0 and abs(weight[i][j]) == threshold:
                         weight[i][j] = 0
                         count += 1
                 print(f"module name={name}, i={i}, threshold={threshold}, pruning_ratio={count/float(weight.size(1))}")
 
 # 剪枝比率
-prune_ratio = 0.8  # 假设我们要剪枝50%的权重
+prune_ratio = 0.9  # 假设我们要剪枝50%的权重
 #prune_model(model, prune_ratio)
 prune_rows(model, prune_ratio)
 #prune_columns(model, prune_ratio)
